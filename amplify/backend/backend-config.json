@@ -1,13 +1,14 @@
 {
+	"auth": {
+		"amplifypoc3ef392fb": {
+			"service": "Cognito",
+			"providerPlugin": "awscloudformation",
+			"dependsOn": []
+		}
+	},
 	"hosting": {
 		"S3AndCloudFront": {
 			"service": "S3AndCloudFront",
-			"providerPlugin": "awscloudformation"
-		}
-	},
-	"auth": {
-		"cognitodf5ee648": {
-			"service": "Cognito",
 			"providerPlugin": "awscloudformation"
 		}
 	}

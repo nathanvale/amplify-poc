@@ -20,5 +20,5 @@ into a CI/CD pipeline with [CircleCI](https://circleci.com) so that for every pu
 
 - `package.json`: the `lighthouse` section defines our performance budgets for this project.
 - `.circleci/config.yml`: the CircleCI configuration file that wires everything together from the top down.
-- `ci-scripts/analyze_scores.js`: script that takes 1 or more Lighthouse reports, and a package.json containing performance budget definitions, and decides if we passed or failed, and then updates the PR with a comment.
+- `scripts/analyze_scores.js`: script that takes 1 or more Lighthouse reports, and a package.json containing performance budget definitions, and decides if we passed or failed, and then updates the PR with a comment.
 - `lighthouse-config/`: custom configuration files we pass into the Lighthouse CLI to set up a custom audit for bundle size, and to log in a user with puppeteer

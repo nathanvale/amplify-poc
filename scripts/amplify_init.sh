@@ -12,7 +12,7 @@ AWSCLOUDFORMATIONCONFIG="{\
 \"configLevel\":\"project\",\
 \"useProfile\":true,\
 \"profileName\":\"amplify\",\
-\"region\":\"us-west-2\"\
+\"region\":\"ap-southeast-2\"\
 }"
 AMPLIFY="{\
 \"projectName\":\"lighthousecircleciex\",\

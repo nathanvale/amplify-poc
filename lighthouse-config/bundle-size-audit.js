@@ -1,4 +1,6 @@
-const Audit = require("/usr/local/lib/node_modules/lighthouse").Audit;
+const $HOME = require('os').homedir();
+
+const Audit = require(`${$HOME}/.config/yarn/global/node_modules/lighthouse`).Audit;
 
 class LoadAudit extends Audit {
   static get meta() {
