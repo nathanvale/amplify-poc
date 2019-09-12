@@ -81,7 +81,6 @@ jobs:
       # we write ~/.aws/credentials based on environment variables we have set
       # manually in CircleCI. ok sure.
       - run: ./scripts/write_aws_creds_file.sh
-      - run: ./scripts/amplify_init.sh
       - run: ~/.yarn/bin/amplify env checkout staging
       - run: ~/.yarn/bin/amplify publish -y --invalidateCloudFront
 
