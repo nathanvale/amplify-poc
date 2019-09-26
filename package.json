@@ -11,12 +11,15 @@
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "3.1.1"
+    "react-scripts": "3.1.1",
+    "lighthouse": "^5.0.0",
+    "puppeteer": "^1.13.0"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "test:lighthouse": "jest --config ./lighthouse/jest.config.js --verbose --runInBand",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
