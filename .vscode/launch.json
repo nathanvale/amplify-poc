@@ -1,0 +1,22 @@
+{
+  "version": "2.0.0",
+  "configurations": [
+    {
+      "name": "Debug Jest Lighthouse Tests",
+      "type": "node",
+      "request": "launch",
+      "env":{"LIGHTHOUSE_URL":"https://staging.nathanvale.dev/"},
+      "runtimeArgs": [
+        "--inspect-brk",
+        "${workspaceRoot}/node_modules/.bin/jest",
+        "--config",
+        "./lighthouse/jest.config.js",
+        "--verbose",
+        "--runInBand"
+      ],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "port": 9229
+    }
+  ]
+}

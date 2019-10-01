@@ -86,16 +86,9 @@ jobs:
 
   # Run Lighthouse against staging deployment -- anonymous user hitting
   # the app's home page
-  perfTests:
-    # Number of parallel Lighthouse runs against this url. Why more than one?
-    # Some perf metrics vary across runs based on backend flakiness, etc, and
-    # this way we can extract a best score or median across runs.
-    parallelism: 2
-
-    # Sadly there is currently no official lighthouse docker image. But
-    # it is on their radar github.com/GoogleChrome/lighthouse/issues/3715
+  lighthouse:
     docker:
-      - image: kporras07/lighthouse-ci
+      - image: circleci/node:10.15.0
 
     steps:
       - checkout
@@ -106,7 +99,7 @@ jobs:
           # Set TEST_URL as an environment variable so that our custom config
           # file (see below) can know about it
           environment:
-            TEST_URL: https://staging.kubernetesfordogs.com
+            LIGHTHOUSE_URL: https://staging.nathanvale.dev
 
           # - Extract max JS bundle size, as well as a regular expression that
           #   identifies our main JS bundle, from their definitions in `package.json`.
@@ -127,74 +120,15 @@ jobs:
           # - We use --output to get reports in html, so people can view them,
           #   AND json, so we can extract scores from them programmatically.
           command: |
-            MAX_BUNDLE_SIZE_KB="$(node -p 'require("./package.json").lighthouse.maxBundleSizeKb')" \
-            JS_BUNDLE_REGEX="$(node -p 'require("./package.json").lighthouse.jsBundleRegex')" \
-            lighthouse $TEST_URL \
-              --config-path=./lighthouse-config/custom-config.js \
-              --port=9222 \
-              --chrome-flags=\"--headless\" \
-              --output-path=/home/chrome/reports/anonymous-"$(echo -n $CIRCLE_SHELL_ENV | md5sum | awk '{print $1}')" \
-              --output=json \
-              --output=html
+            jest --config ./lighthouse/jest.config.js --verbose --runInBand
 
       # Save the reports just generated in a place where the _next job_ in the
       # workflow can snag them all and do analysis on them.
       - persist_to_workspace:
-          root: /home/chrome
+          root: .
           paths:
             - reports
 
-  # Run Lighthouse against staging deployment -- authenticated user hitting
-  # the app's dashboard page. The only things different between this and
-  # the previous job are commented on below.
-  perfTestsAuthenticated:
-    parallelism: 2
-
-    docker:
-      - image: kporras07/lighthouse-ci
-
-    steps:
-      - checkout
-
-      # We need one additional node module; storing it with the rest and trying
-      # to `restore_cache` again doesn't really work cause the directory
-      # structure and permissions are different here than the container where
-      # that stuff was cached; highlights a limit of how we're using the cache
-      # for node modules :p
-      - run: npm install puppeteer
-
-      - run:
-          name: Run lighthouse against staging deployment, authenticated user
-
-          environment:
-            # Different url, for the authenticated page
-            TEST_URL: https://staging.kubernetesfordogs.com/dashboard
-
-          # Different custom config file passed into --config-path, and
-          # the report filenames contain `authenticated` instead of `anonymous`.
-          # The different custom config is where we plug in the
-          # authentication step: we use a custom gatherer to have puppeteer
-          # perform the login. For more detail, see the `*authenticate*`
-          # files in lighthouse-config/
-          command: |
-            MAX_BUNDLE_SIZE_KB="$(node -p 'require("./package.json").lighthouse.maxBundleSizeKb')" \
-            JS_BUNDLE_REGEX="$(node -p 'require("./package.json").lighthouse.jsBundleRegex')" \
-            lighthouse $TEST_URL \
-              --config-path=./lighthouse-config/custom-config-authenticate.js \
-              --port=9222 \
-              --chrome-flags=\"--headless\" \
-              --output-path=/home/chrome/reports/authenticated-"$(echo -n $CIRCLE_SHELL_ENV | md5sum | awk '{print $1}')" \
-              --output=json \
-              --output=html
-
-      - persist_to_workspace:
-          root: /home/chrome
-          paths:
-            - reports
-
-  # Analyze all the reports, decide if we should pass or fail, and
-  # report back with a comment on the PR that provides A) the scores and
-  # B) links to the html reports for all the test runs.
   processResults:
     docker:
       - image: circleci/node:10.15.0
@@ -208,27 +142,13 @@ jobs:
           keys:
             - node-v1-{{ checksum "package.json" }}-{{ checksum "yarn.lock" }}
 
-      # Mount the workspace (which contains all our reports) into this
-      # container. The reports are subsequently available at ./reports/
       - attach_workspace:
           at: "."
 
-      # Store the html and json reports in S3 as long-term artifacts associated
-      # with this job. Then, we can easily send links to the html reports in the
-      # PR comment.
       - store_artifacts:
           path: reports
           destination: reports
 
-      # Compare our desired goals, expressed in the `lighthouse` section of
-      # `package.json`, against the actual test results. Right now we simply
-      # use the _best score_ across all runs for each category. If we want
-      # to fail the job, and consequently fail the workflow, the script exits
-      # with a nonzero exit code.
-      #
-      # Finally, we post a comment to GH. Because we enabled GH "checks integration"
-      # on the CircleCI side, the PR status will automatically be set to
-      # pass/fail based on whether this workflow passes or fails.
       - run:
           name: Analyze and report desired vs actual lighthouse scores
           command: ./scripts/analyze_scores.js package.json reports
@@ -241,13 +161,6 @@ workflows:
       - deployToStaging:
           requires:
             - nodeModules
-      - perfTests:
+      - lighthouse:
           requires:
             - deployToStaging
-      - perfTestsAuthenticated:
-          requires:
-            - deployToStaging
-      - processResults:
-          requires:
-            - perfTests
-            - perfTestsAuthenticated

@@ -19,7 +19,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "test:lighthouse": "jest --config ./lighthouse/jest.config.js --verbose --runInBand",
+    "test:lighthouse": "LIGHTHOUSE_URL=https://staging.nathanvale.dev jest --config ./lighthouse/jest.config.js --verbose --runInBand",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
