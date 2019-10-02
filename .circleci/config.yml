@@ -120,7 +120,7 @@ jobs:
           # - We use --output to get reports in html, so people can view them,
           #   AND json, so we can extract scores from them programmatically.
           command: |
-            jest --config ./lighthouse/jest.config.js --verbose --runInBand
+            LIGHTHOUSE_URL=$LIGHTHOUSE_URL jest --config ./lighthouse/jest.config.js --verbose --runInBand
 
       # Save the reports just generated in a place where the _next job_ in the
       # workflow can snag them all and do analysis on them.
