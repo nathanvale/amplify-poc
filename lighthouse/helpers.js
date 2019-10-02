@@ -40,19 +40,20 @@ async function gatherLighthouseMetrics(page, config) {
 
 async function getMetrics(url,preset) {
   const browser = await puppeteer.launch({
-    headless: true
+    headless: true,
+        args: ['--disable-gpu'],
   });
   const page = await browser.newPage();
-  // Connect to Chrome DevTools
-  const client = await page.target().createCDPSession()
-  // Set throttling property
-  await client.send('Network.emulateNetworkConditions', preset)
   await page.goto(url);
-  const rawMetrics = await gatherPerformanceTimingMetrics(page);
-  const metrics = await processPerformanceTimingMetrics(rawMetrics);
   
+  const results = await gatherLighthouseMetrics(page, {
+    extends: 'lighthouse:default',
+    settings: {
+      onlyCategories: ['performance'],
+    },
+  })
   await browser.close();
-  return metrics
+  return results
 }
 
 const NETWORK_PRESETS = {
