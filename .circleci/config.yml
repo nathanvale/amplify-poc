@@ -27,7 +27,7 @@ jobs:
       # pipeline.
       - restore_cache:
           keys:
-            - node-v1-{{ checksum "package.json" }}-{{ checksum "yarn.lock" }}
+            - yarn-packages-{{ checksum "yarn.lock" }}
 
       # AMPLIFY-SPECIFIC: I would have thought I could just do:
       # `yarn global add @aws-amplify/cli@multienv` and this would perform
@@ -52,11 +52,11 @@ jobs:
       # AMPLIFY-SPECIFIC: caching of the global node modules in ~./yarn and
       # ~/.config/yarn (the former symlinks to the latter, we must specify both.)
       - save_cache:
+          key: yarn-packages-{{ checksum "yarn.lock" }}
           paths:
             - node_modules
             - ~/.yarn
             - ~/.config/yarn
-          key: node-v1-{{ checksum "package.json" }}-{{ checksum "yarn.lock" }}
 
   # Build and deploy application to Cloudfront. It is pretty much
   # all AMPLIFY-SPECIFIC.
