@@ -32,7 +32,9 @@ jobs:
           key: v1-dependencies-{{ checksum "yarn.lock" }}
       - persist_to_workspace:
           root: ~/
-          paths: ~/repo/node_modules
+          paths:
+            - repo/node_modules
+            - .config/yarn
   release:
     <<: *defaults
     steps:
