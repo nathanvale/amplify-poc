@@ -44,8 +44,8 @@ jobs:
       # Clean unnecessary files -- markdown, typescript, etc -- from node_modules.
       # We are going to cache node_modules in a moment and this will make
       # that go faster both when writing to and reading from the cache.
-      - run:
-          command: yarn autoclean --force
+      #- run:
+      #    command: yarn autoclean --force
 
       # Cache freshly installed node_modules for this package.json/yarn.lock combo.
       # If the cache has already been saved for this cache `key`, nothing happens.
