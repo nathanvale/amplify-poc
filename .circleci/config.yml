@@ -8,17 +8,17 @@ jobs:
     <<: *defaults
     steps:
       - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "yarn.lock" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
       - run: echo 'export PATH=$(yarn global bin):$PATH' >> $BASH_ENV
       - run: echo $BASH_ENV
       - run: yarn global bin
       - run: yarn global add @aws-amplify/cli@3.0.0
       - run: amplify
       - run: which amplify
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "yarn.lock" }}
-            # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-
       - run:
           name: Install
           command: |
@@ -28,15 +28,16 @@ jobs:
       - save_cache:
           paths:
             - node_modules
+            - ~/.config/yarn
           key: v1-dependencies-{{ checksum "yarn.lock" }}
       - persist_to_workspace:
-          root: ~/repo
-          paths: node_modules
+          root: ~/
+          paths: ~/repo/node_modules
   release:
     <<: *defaults
     steps:
       - attach_workspace:
-          at: ~/repo
+          at: ~/
       - checkout
       - run:
           name: Build
