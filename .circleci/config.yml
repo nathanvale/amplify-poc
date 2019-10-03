@@ -7,7 +7,9 @@ jobs:
 
     steps:
       - checkout
-      - run: yarn config set prefix ~/.yarn
+      - run: yarn global add @aws-amplify/cli@3.0.0 --prefix /usr/local
+      - run: which amplify
+      - run: amplify
       - restore_cache:
           keys:
             - yarn-packages-{{ checksum "yarn.lock" }}
