@@ -7,7 +7,7 @@ jobs:
 
     steps:
       - checkout
-      - run: yarn global add @aws-amplify/cli@3.0.0 --prefix /usr/local
+      - run: yarn global add @aws-amplify/cli@3.0.0
       - run: which amplify
       - run: amplify
       - restore_cache:
