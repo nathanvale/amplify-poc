@@ -1,0 +1,140 @@
+version: 2.1
+jobs:
+  # Install node dependencies.
+  nodeModules:
+    docker:
+      - image: circleci/node:12.4.0
+
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+            - yarn-packages-{{ checksum "yarn.lock" }}
+      - run: "if [ -e $HOME/.yarn/bin/amplify ]; then echo 'amplify already installed globally, skipping'; else yarn global add @aws-amplify/cli@3.0.0 --prefix ~/.yarn; fi"
+      - run: yarn info
+      - run: yarn install
+      #- run:
+      #    command: yarn autoclean --force
+      - save_cache:
+          key: yarn-packages-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
+            - ~/.yarn
+      - run: ls /home/circleci/project/
+      - persist_to_workspace:
+          root: .
+          paths:
+            - node_modules
+
+  # Build and deploy application to Cloudfront. It is pretty much
+  # all AMPLIFY-SPECIFIC.
+  deployToStaging:
+    docker:
+      - image: circleci/node:10.15.0
+
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+
+      - run: yarn config set prefix ~/.yarn
+
+      # Fetch node_modules from the cache. Note: we are using the CircleCI
+      # cache here but it would probably be more optimal to use the Workspace
+      # to pass the installed node_modules across sequential jobs in the same
+      # Workflow.
+      - restore_cache:
+          keys:
+            - node-v1-{{ checksum "package.json" }}-{{ checksum "yarn.lock" }}
+
+      # amplify doesn't presently support AWS creds as environment variables, so
+      # we write ~/.aws/credentials based on environment variables we have set
+      # manually in CircleCI. ok sure.
+      - run: ls /home/circleci/project/
+      - run: ./scripts/write_aws_creds_file.sh
+      - run: ~/.yarn/bin/amplify env list
+      - run: ./scripts/amplify_push.sh -e staging -i
+      - run: ~/.yarn/bin/amplify env checkout staging
+      - run: ~/.yarn/bin/amplify publish -y --invalidateCloudFront
+
+  # Run Lighthouse against staging deployment -- anonymous user hitting
+  # the app's home page
+  lighthouse:
+    docker:
+      - image: circleci/node:10.15.0
+
+    steps:
+      - checkout
+
+      - run:
+          name: Run lighthouse against staging deployment
+
+          # Set TEST_URL as an environment variable so that our custom config
+          # file (see below) can know about it
+          environment:
+            LIGHTHOUSE_URL: https://staging.nathanvale.dev
+
+          # - Extract max JS bundle size, as well as a regular expression that
+          #   identifies our main JS bundle, from their definitions in `package.json`.
+          #   Store them in environment variables so that our custom confg
+          #   can reference them.
+          #
+          # - Invoke `lighthouse`, passing in a custom config file via --config-path.
+          #   The config file is how we include our custom audit.
+          #
+          # - The container is defined to run as user `chrome` (side note, can't run
+          #   Chrome browser as root!) We store the Lighthouse reports in user
+          #   `chrome`'s home directory via the --output-path.
+          #
+          # - Also via --output-path, the reports will have in their file
+          #   name `anonymous` (as opposed to authenticated) and a checksum
+          #   of a unique value from the container where they were executed
+          #
+          # - We use --output to get reports in html, so people can view them,
+          #   AND json, so we can extract scores from them programmatically.
+          command: |
+            LIGHTHOUSE_URL=$LIGHTHOUSE_URL jest --config ./lighthouse/jest.config.js --verbose --runInBand
+
+      # Save the reports just generated in a place where the _next job_ in the
+      # workflow can snag them all and do analysis on them.
+      - persist_to_workspace:
+          root: .
+          paths:
+            - reports
+
+  processResults:
+    docker:
+      - image: circleci/node:10.15.0
+
+    steps:
+      - checkout
+
+      # (again, or caching strategy around node_modules could probably be
+      # way more optimized, but for now it gets the job done.)
+      - restore_cache:
+          keys:
+            - node-v1-{{ checksum "package.json" }}-{{ checksum "yarn.lock" }}
+
+      - attach_workspace:
+          at: "."
+
+      - store_artifacts:
+          path: reports
+          destination: reports
+
+      - run:
+          name: Analyze and report desired vs actual lighthouse scores
+          command: ./scripts/analyze_scores.js package.json reports
+
+workflows:
+  version: 2
+  deployToStagingAndTest:
+    jobs:
+      - nodeModules
+      - deployToStaging:
+          requires:
+            - nodeModules
+      - lighthouse:
+          requires:
+            - deployToStaging
