@@ -2,6 +2,18 @@
     "staging": {
         "configLevel": "project",
         "useProfile": true,
+        "profileName": "amplify",
+        "region": "ap-southeast-2"
+    },
+    "some-new-branch": {
+        "configLevel": "project",
+        "useProfile": true,
+        "profileName": "amplify",
+        "region": "ap-southeast-2"
+    },
+    "branch": {
+        "configLevel": "project",
+        "useProfile": true,
         "profileName": "amplify"
     }
 }

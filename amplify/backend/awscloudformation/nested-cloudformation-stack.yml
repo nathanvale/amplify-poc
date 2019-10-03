@@ -71,7 +71,7 @@
 		"authamplifypoc3ef392fb": {
 			"Type": "AWS::CloudFormation::Stack",
 			"Properties": {
-				"TemplateURL": "https://s3.amazonaws.com/amplify-poc-staging-20190910120010-deployment/amplify-cfn-templates/auth/amplifypoc3ef392fb-cloudformation-template.yml",
+				"TemplateURL": "https://s3.amazonaws.com/lighthousecircleciex-branch-20191003140749-deployment/amplify-cfn-templates/auth/amplifypoc3ef392fb-cloudformation-template.yml",
 				"Parameters": {
 					"identityPoolName": "amplifypoc3ef392fb_identitypool_3ef392fb",
 					"allowUnauthenticatedIdentities": false,
@@ -111,17 +111,17 @@
 					"useDefault": "default",
 					"usernameAttributes": "email",
 					"dependsOn": "",
-					"env": "staging"
+					"env": "branch"
 				}
 			}
 		},
 		"hostingS3AndCloudFront": {
 			"Type": "AWS::CloudFormation::Stack",
 			"Properties": {
-				"TemplateURL": "https://s3.amazonaws.com/amplify-poc-staging-20190910120010-deployment/amplify-cfn-templates/hosting/template.json",
+				"TemplateURL": "https://s3.amazonaws.com/lighthousecircleciex-branch-20191003140749-deployment/amplify-cfn-templates/hosting/template.json",
 				"Parameters": {
 					"bucketName": "amplify-poc-20190910120223-hostingbucket",
-					"env": "staging"
+					"env": "branch"
 				}
 			}
 		},

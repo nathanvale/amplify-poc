@@ -5,8 +5,8 @@ IFS='|'
 REACTCONFIG="{\
 \"SourceDir\":\"src\",\
 \"DistributionDir\":\"build\",\
-\"BuildCommand\":\"npm run-script build\",\
-\"StartCommand\":\"npm run-script start\"\
+\"BuildCommand\":\"yarn build\",\
+\"StartCommand\":\"yarn start\"\
 }"
 AWSCLOUDFORMATIONCONFIG="{\
 \"configLevel\":\"project\",\
@@ -15,7 +15,7 @@ AWSCLOUDFORMATIONCONFIG="{\
 \"region\":\"ap-southeast-2\"\
 }"
 AMPLIFY="{\
-\"projectName\":\"lighthousecircleciex\",\
+\"projectName\":\"amplifypoc\",\
 \"defaultEditor\":\"code\"\
 }"
 FRONTEND="{\

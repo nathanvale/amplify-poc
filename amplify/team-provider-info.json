@@ -32,5 +32,25 @@
                 "amplifypoc3ef392fb": {}
             }
         }
+    },
+    "some-new-branch": {
+        "error": "No environment found with name: 'some-new-branch'"
+    },
+    "branch": {
+        "awscloudformation": {
+            "AuthRoleName": "lighthousecircleciex-branch-20191003140749-authRole",
+            "UnauthRoleArn": "arn:aws:iam::279182895054:role/lighthousecircleciex-branch-20191003140749-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::279182895054:role/lighthousecircleciex-branch-20191003140749-authRole",
+            "Region": "ap-southeast-2",
+            "DeploymentBucketName": "lighthousecircleciex-branch-20191003140749-deployment",
+            "UnauthRoleName": "lighthousecircleciex-branch-20191003140749-unauthRole",
+            "StackName": "lighthousecircleciex-branch-20191003140749",
+            "StackId": "arn:aws:cloudformation:ap-southeast-2:279182895054:stack/lighthousecircleciex-branch-20191003140749/5d5ab650-e593-11e9-86f5-0609d93c9d3c"
+        },
+        "categories": {
+            "auth": {
+                "amplifypoc3ef392fb": {}
+            }
+        }
     }
 }
