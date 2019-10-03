@@ -24,7 +24,7 @@ jobs:
           command: |
             yarn install --frozen-lockfile
       - run: ls ~/repo
-      - run: command: yarn autoclean --force
+      - run: yarn autoclean --force
       - save_cache:
           paths:
             - node_modules
