@@ -19,6 +19,7 @@ jobs:
       - run: yarn global add @aws-amplify/cli@3.0.0
       - run: amplify
       - run: which amplify
+      - run: "if [ -e $HOME/.yarn/bin/amplify ]; then echo 'amplify already installed globally, skipping'; else yarn global bin; fi"
       - run:
           name: Install
           command: |
