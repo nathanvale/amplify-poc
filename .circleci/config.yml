@@ -8,6 +8,9 @@ jobs:
     <<: *defaults
     steps:
       - checkout
+      - run: echo 'export PATH=$(yarn global bin):$PATH' >> $BASH_ENV
+      - run: echo $BASH_ENV
+      - run: yarn global bin
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "yarn.lock" }}
@@ -17,10 +20,7 @@ jobs:
           name: Install
           command: |
             yarn install --frozen-lockfile
-      - run:
-          name: Run tests
-          command: |
-            yarn validate
+      - run: ls ~/repo
       - save_cache:
           paths:
             - node_modules
