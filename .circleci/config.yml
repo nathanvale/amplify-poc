@@ -13,13 +13,13 @@ jobs:
             - v1-dependencies-{{ checksum "yarn.lock" }}
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
+      - run: which amplify
+      - run: "if [ -e $HOME/.yarn/bin/amplify ]; then echo 'amplify already installed globally, skipping'; else yarn global bin; fi"
       - run: echo 'export PATH=$(yarn global bin):$PATH' >> $BASH_ENV
       - run: echo $BASH_ENV
       - run: yarn global bin
       - run: yarn global add @aws-amplify/cli@3.0.0
       - run: amplify
-      - run: which amplify
-      - run: "if [ -e $HOME/.yarn/bin/amplify ]; then echo 'amplify already installed globally, skipping'; else yarn global bin; fi"
       - run:
           name: Install
           command: |
