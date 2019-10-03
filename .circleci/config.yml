@@ -5,9 +5,6 @@ jobs:
     docker:
       - image: circleci/node:10.15.0
 
-    environment:
-      BASH_ENV: ~/.bashrc
-
     steps:
       - checkout
       - run: echo 'export PATH=$(yarn global bin):$PATH' >> $BASH_ENV
