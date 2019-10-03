@@ -57,6 +57,7 @@ jobs:
             - node_modules
             - ~/.yarn
             - ~/.config/yarn
+      - run: ls /home/circleci/project/
       - persist_to_workspace:
           root: .
           paths:
