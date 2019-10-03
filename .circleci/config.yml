@@ -3,58 +3,22 @@ jobs:
   # Install node dependencies.
   nodeModules:
     docker:
-      # Execute this job within a nodejs convenience image provided by CircleCI.
-      # This is basically the official node docker image plus a few additional
-      # tools commonly useful in a CI environment (git, ssh, tar, curl, etc.)
       - image: circleci/node:10.15.0
 
     steps:
-      # Fetch the github repo. Subsequent commands will be run within the root
-      # directory of the repo.
       - checkout
-
-      # AMPLIFY-SPECIFIC: we need to install the amplify cli globally
-      # because the beta amplify multi-env package we are using will otherwise
-      # explode. To avoid permissions issues we set it so that global node
-      # modules are located within $HOME.
       - run: yarn config set prefix ~/.yarn
-
-      # If we have already run this job with the exact same package.json and
-      # yarn.lock and cached its results, fetch those node modules from the cache.
-      # This way when we do `yarn` below, nothing will happen; stuff is already
-      # up to date. Why not just yarn.lock? I added package.json too so I can
-      # increment a number in that file to bust the cache while building the
-      # pipeline.
       - restore_cache:
           keys:
             - yarn-packages-{{ checksum "yarn.lock" }}
-
-      # AMPLIFY-SPECIFIC: I would have thought I could just do:
-      # `yarn global add @aws-amplify/cli@multienv` and this would perform
-      # no extra work if amplify were _already_ installed globally. But alas,
-      # some stuff was still happening (not sure about fetching, but at least linking)
-      # and it was slowing things down on every run, so we just manually check if
-      # amplify is in the house.
       - run: "if [ -e $HOME/.yarn/bin/amplify ]; then echo 'amplify already installed globally, skipping'; else yarn global add @aws-amplify/cli@3.0.0 --prefix ~/.yarn; fi"
-
-      # Install dependencies based on yarn.lock. Ensure that yarn.lock
-      # is not updated.
       - run: yarn --frozen-lockfile
-
-      # Clean unnecessary files -- markdown, typescript, etc -- from node_modules.
-      # We are going to cache node_modules in a moment and this will make
-      # that go faster both when writing to and reading from the cache.
       #- run:
       #    command: yarn autoclean --force
-
-      # Cache freshly installed node_modules for this package.json/yarn.lock combo.
-      # If the cache has already been saved for this cache `key`, nothing happens.
-      # AMPLIFY-SPECIFIC: caching of the global node modules in ~./yarn and
-      # ~/.config/yarn (the former symlinks to the latter, we must specify both.)
       - save_cache:
           key: yarn-packages-{{ checksum "yarn.lock" }}
           paths:
-            - node_modules
+            - ~/.cache/yarn
             - ~/.yarn
             - ~/.config/yarn
       - run: ls /home/circleci/project/
