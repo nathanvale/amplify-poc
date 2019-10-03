@@ -80,7 +80,7 @@ jobs:
       # amplify doesn't presently support AWS creds as environment variables, so
       # we write ~/.aws/credentials based on environment variables we have set
       # manually in CircleCI. ok sure.
-      - run: ls /home/circleci/project/node_modules
+      - run: ls /home/circleci/project/
       - run: ./scripts/write_aws_creds_file.sh
       - run: ~/.yarn/bin/amplify env list
       - run: ./scripts/amplify_push.sh -e staging -i
