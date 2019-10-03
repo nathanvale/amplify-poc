@@ -54,7 +54,6 @@ jobs:
       - save_cache:
           key: yarn-packages-{{ checksum "yarn.lock" }}
           paths:
-            - node_modules
             - ~/.yarn
             - ~/.config/yarn
 
