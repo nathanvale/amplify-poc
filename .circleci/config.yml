@@ -10,9 +10,9 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - v8-dependencies-{{ checksum "yarn.lock" }}
+            - v9-dependencies-{{ checksum "yarn.lock" }}
             # fallback to using the latest cache if no exact match is found
-            - v8-dependencies-
+            - v9-dependencies-
       - run: "if [ -e $HOME/.yarn/bin/amplify ]; then echo 'amplify already installed globally, skipping'; else yarn global add @aws-amplify/cli@^3.0.0 --prefix ~/.yarn; fi"
       - run: ~/.yarn/bin/amplify version
       - run:
@@ -24,7 +24,7 @@ jobs:
             - node_modules
             - ~/.yarn
             - ~/.config/yarn
-          key: v8-dependencies-{{ checksum "yarn.lock" }}
+          key: v9-dependencies-{{ checksum "yarn.lock" }}
   release:
     <<: *defaults
     steps:
@@ -33,9 +33,8 @@ jobs:
       - run: echo $BASH_ENV
       - restore_cache:
           keys:
-            - v8-dependencies-{{ checksum "yarn.lock" }}
+            - v9-dependencies-{{ checksum "yarn.lock" }}
       - run: ./scripts/write_aws_creds_file.sh
-      - run: ~/.yarn/bin/amplify env list
       - run: ./scripts/amplify_push.sh -e staging -i
       - run: ~/.yarn/bin/amplify publish -y --invalidateCloudFront
 
