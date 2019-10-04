@@ -14,6 +14,7 @@ jobs:
             # fallback to using the latest cache if no exact match is found
             - v{{ .Environment.CACHE_ID }}-dependencies-
       - run: ./scripts/amplify-install.sh
+      - run: ./scripts/write-aws-creds-file.sh
       - run:
           name: Install
           command: |
@@ -24,6 +25,7 @@ jobs:
             - ~/.yarn
             - ~/.config/yarn
             - ~/.amplify
+            - ~/.aws
           key: v{{ .Environment.CACHE_ID }}-dependencies-{{ checksum "yarn.lock" }}
   release:
     <<: *defaults
@@ -33,7 +35,6 @@ jobs:
       - restore_cache:
           keys:
             - v{{ .Environment.CACHE_ID }}-dependencies-{{ checksum "yarn.lock" }}
-      - run: ./scripts/write-aws-creds-file.sh
       - run: ./scripts/amplify-init.sh -e staging -i
       - run: amplify publish -y --invalidateCloudFront
 
