@@ -19,19 +19,19 @@ init_env () {
   if [[ ${IS_IMPORT} = true ]];
   then
       echo "# Start initializing Amplify environment: ${ENV}"
-      STACKINFO="$(./node_modules/.bin/amplify env get --json --name ${ENV})"
+      STACKINFO="$(amplify env get --json --name ${ENV})"
       echo "STACKINFO="${STACKINFO}
       echo "# Importing Amplify environment: ${ENV} (amplify env import)"
-      ./node_modules/.bin/amplify env import --name ${ENV} --config "${STACKINFO}" --awsInfo ${AWSCONFIG} --frontend $FRONTEND --yes;
+      amplify env import --name ${ENV} --config "${STACKINFO}" --awsInfo ${AWSCONFIG} --frontend $FRONTEND --yes;
       echo "# Initializing existing Amplify environment: ${ENV} (amplify init)"
-      ./node_modules/.bin/amplify init --amplify ${AMPLIFY} --providers ${PROVIDERS} --codegen ${CODEGEN} --yes;
+      amplify init --amplify ${AMPLIFY} --providers ${PROVIDERS} --codegen ${CODEGEN} --yes;
       echo "# Environment ${ENV} details:"
-      ./node_modules/.bin/amplify env get --name ${ENV}
+      amplify env get --name ${ENV}
   else
       echo "# Initializing new Amplify environment: ${ENV} (amplify init)"
-      ./node_modules/.bin/amplify init --amplify ${AMPLIFY} --providers ${PROVIDERS} --codegen ${CODEGEN} --frontend $FRONTEND --yes;
+      amplify init --amplify ${AMPLIFY} --providers ${PROVIDERS} --codegen ${CODEGEN} --frontend $FRONTEND --yes;
       echo "# Environment ${ENV} details:"
-      ./node_modules/.bin/amplify env get --name ${ENV}
+      amplify env get --name ${ENV}
   fi
 
 

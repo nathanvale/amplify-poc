@@ -8,8 +8,6 @@ jobs:
     <<: *defaults
     steps:
       - checkout
-      - run: echo 'export PATH=$(yarn global bin):$PATH' >> $BASH_ENV
-      - run: echo $BASH_ENV
       - restore_cache:
           keys:
             - v8-dependencies-{{ checksum "yarn.lock" }}
@@ -20,9 +18,6 @@ jobs:
           name: Install
           command: |
             yarn install --frozen-lockfile
-      - run: ls ~/.cache/yarn
-      - run: amplify
-      - run: which amplify
       - save_cache:
           paths:
             - node_modules
@@ -34,16 +29,15 @@ jobs:
     steps:
       - checkout
       - run: echo 'export PATH=$(yarn global bin):$PATH' >> $BASH_ENV
-      - run: echo $BASH_ENV 
+      - run: echo $BASH_ENV
       - restore_cache:
           keys:
             - v8-dependencies-{{ checksum "yarn.lock" }}
-      - run: amplify
-      - run:
-          name: Build
-          command: |
-            yarn build
-      - run: npx semantic-release
+      - run: ./scripts/write_aws_creds_file.sh
+      - run: ~/.yarn/bin/amplify env list
+      - run: ./scripts/amplify_push.sh -e staging -i
+      - run: ~/.yarn/bin/amplify env checkout staging
+      - run: ~/.yarn/bin/amplify publish -y --invalidateCloudFront
 
 workflows:
   version: 2
