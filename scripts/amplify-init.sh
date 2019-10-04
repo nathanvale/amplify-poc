@@ -19,19 +19,19 @@ init_env () {
   if [[ ${IS_IMPORT} = true ]];
   then
       echo "# Start initializing Amplify environment: ${ENV}"
-      STACKINFO="$(~/.yarn/bin amplify  env get --json --name ${ENV})"
+      STACKINFO="$(~/.yarn/bin/amplify  env get --json --name ${ENV})"
       echo "STACKINFO="${STACKINFO}
       echo "# Importing Amplify environment: ${ENV} (amplify env import)"
-      ~/.yarn/bin amplify env import --name ${ENV} --config "${STACKINFO}" --awsInfo ${AWSCONFIG} --frontend $FRONTEND --yes;
+      ~/.yarn/bin/amplify env import --name ${ENV} --config "${STACKINFO}" --awsInfo ${AWSCONFIG} --frontend $FRONTEND --yes;
       echo "# Initializing existing Amplify environment: ${ENV} (amplify init)"
-      ~/.yarn/bin amplify init --amplify ${AMPLIFY} --providers ${PROVIDERS} --codegen ${CODEGEN} --yes;
+      ~/.yarn/bin/amplify init --amplify ${AMPLIFY} --providers ${PROVIDERS} --codegen ${CODEGEN} --yes;
       echo "# Environment ${ENV} details:"
-      ~/.yarn/bin amplify env get --name ${ENV}
+      ~/.yarn/bin/amplify env get --name ${ENV}
   else
       echo "# Initializing new Amplify environment: ${ENV} (amplify init)"
-      ~/.yarn/bin amplify init --amplify ${AMPLIFY} --providers ${PROVIDERS} --codegen ${CODEGEN} --frontend $FRONTEND --yes;
+      ~/.yarn/bin/amplify init --amplify ${AMPLIFY} --providers ${PROVIDERS} --codegen ${CODEGEN} --frontend $FRONTEND --yes;
       echo "# Environment ${ENV} details:"
-      ~/.yarn/bin amplify env get --name ${ENV}
+      ~/.yarn/bin/amplify env get --name ${ENV}
   fi
 
 
