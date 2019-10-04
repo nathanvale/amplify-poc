@@ -30,6 +30,7 @@ jobs:
           root: ~/
           paths:
             - .cache/yarn
+            - repo/node_modules
   release:
     <<: *defaults
     steps:
