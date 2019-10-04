@@ -23,12 +23,12 @@ jobs:
       - run: npx amplify
       - save_cache:
           paths:
-            - node_modules
+            - ~/.cache/yarn
           key: v5-dependencies-{{ checksum "yarn.lock" }}
       - persist_to_workspace:
           root: ~/
           paths:
-            - ~/.cache/yarn
+            - .cache/yarn
   release:
     <<: *defaults
     steps:
