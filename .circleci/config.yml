@@ -10,23 +10,23 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - v2-dependencies-{{ checksum "yarn.lock" }}
-           # fallback to using the latest cache if no exact match is found
-            - v2-dependencies-
+            - v3-dependencies-{{ checksum "yarn.lock" }}
+            # fallback to using the latest cache if no exact match is found
+            - v3-dependencies-
       - run:
           name: Install
           command: |
             yarn install --frozen-lockfile
-      - run: ls ~/repo
+      - run: ls ~/.cache/yarn
       - run: npx amplify
       - save_cache:
           paths:
             - node_modules
-          key: v2-dependencies-{{ checksum "yarn.lock" }}
+          key: v3-dependencies-{{ checksum "yarn.lock" }}
       - persist_to_workspace:
-          root: .
+          root: ~/
           paths:
-            - node_modules
+            - .cache/yarn
   release:
     <<: *defaults
     steps:
