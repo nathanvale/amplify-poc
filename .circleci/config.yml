@@ -31,9 +31,9 @@ jobs:
   release:
     <<: *defaults
     steps:
+      - checkout
       - attach_workspace:
           at: ~/
-      - checkout
       - run:
           name: Build
           command: |
