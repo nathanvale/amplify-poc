@@ -13,6 +13,8 @@ jobs:
             - v7-dependencies-{{ checksum "yarn.lock" }}
             # fallback to using the latest cache if no exact match is found
             - v7-dependencies-
+      - run: yarn global list @aws-amplify/cli
+      - run: yarn list @aws-amplify/cli
       - run:
           name: Install
           command: |
