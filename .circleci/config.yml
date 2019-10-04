@@ -14,6 +14,7 @@ jobs:
             # fallback to using the latest cache if no exact match is found
             - v8-dependencies-
       - run: "if [ -e $HOME/.yarn/bin/amplify ]; then echo 'amplify already installed globally, skipping'; else yarn global add @aws-amplify/cli@^3.0.0 --prefix ~/.yarn; fi"
+      - run: ~/.yarn/bin/amplify version
       - run:
           name: Install
           command: |
@@ -36,7 +37,6 @@ jobs:
       - run: ./scripts/write_aws_creds_file.sh
       - run: ~/.yarn/bin/amplify env list
       - run: ./scripts/amplify_push.sh -e staging -i
-      - run: ~/.yarn/bin/amplify env checkout staging
       - run: ~/.yarn/bin/amplify publish -y --invalidateCloudFront
 
 workflows:
