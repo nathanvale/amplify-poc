@@ -30,6 +30,7 @@ jobs:
   deploy-to-staging:
     <<: *defaults
     steps:
+      - checkout
       - restore_cache:
           keys:
             - v{{ .Environment.CACHE_ID }}-dependencies-{{ checksum "yarn.lock" }}
@@ -38,6 +39,7 @@ jobs:
   lighthouse:
     <<: *defaults
     steps:
+      - checkout
       - restore_cache:
           keys:
             - v{{ .Environment.CACHE_ID }}-dependencies-{{ checksum "yarn.lock" }}
