@@ -13,9 +13,6 @@ jobs:
             - v7-dependencies-{{ checksum "yarn.lock" }}
             # fallback to using the latest cache if no exact match is found
             - v7-dependencies-
-      - run: yarn cache dir
-      - run: yarn config set cache-folder ~/.cache/yarn
-      - run: yarn cache dir
       - run:
           name: Install
           command: |
