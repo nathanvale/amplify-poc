@@ -8,35 +8,36 @@ jobs:
     <<: *defaults
     steps:
       - checkout
+      - run: echo 'export PATH=$(yarn global bin):$PATH' >> $BASH_ENV
+      - run: echo $BASH_ENV
       - restore_cache:
           keys:
-            - v7-dependencies-{{ checksum "yarn.lock" }}
+            - v8-dependencies-{{ checksum "yarn.lock" }}
             # fallback to using the latest cache if no exact match is found
-            - v7-dependencies-
-      - run: yarn global list @aws-amplify/cli
-      - run: yarn list @aws-amplify/cli
+            - v8-dependencies-
+      - run: "if [ -e $HOME/.yarn/bin/amplify ]; then echo 'amplify already installed globally, skipping'; else yarn global add @aws-amplify/cli@3.0.0 --prefix ~/.yarn; fi"
       - run:
           name: Install
           command: |
             yarn install --frozen-lockfile
       - run: ls ~/.cache/yarn
-      - run: npx amplify
+      - run: yarn global add @aws-amplify/cli@3.0.0
+      - run: yarn global list @aws-amplify/cli
+      - run: amplify
+      - run: which amplify
       - save_cache:
           paths:
-            - ~/.cache/yarn
-            - ~/repo/node_modules
-          key: v7-dependencies-{{ checksum "yarn.lock" }}
-      - persist_to_workspace:
-          root: ~/
-          paths:
-            - .cache/yarn
-            - repo/node_modules
+            - node_modules
+            - ~/.yarn
+            - ~/.config/yarn
+          key: v8-dependencies-{{ checksum "yarn.lock" }}
   release:
     <<: *defaults
     steps:
       - checkout
-      - attach_workspace:
-          at: ~/
+      - restore_cache:
+          keys:
+            - v8-dependencies-{{ checksum "yarn.lock" }}
       - run:
           name: Build
           command: |
