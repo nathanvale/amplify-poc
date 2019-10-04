@@ -1,56 +1,56 @@
 {
-	"staging": {
-		"awscloudformation": {
-			"AuthRoleName": "amplify-poc-staging-20190910120010-authRole",
-			"UnauthRoleArn": "arn:aws:iam::279182895054:role/amplify-poc-staging-20190910120010-unauthRole",
-			"AuthRoleArn": "arn:aws:iam::279182895054:role/amplify-poc-staging-20190910120010-authRole",
-			"Region": "ap-southeast-2",
-			"DeploymentBucketName": "amplify-poc-staging-20190910120010-deployment",
-			"UnauthRoleName": "amplify-poc-staging-20190910120010-unauthRole",
-			"StackName": "amplify-poc-staging-20190910120010",
-			"StackId": "arn:aws:cloudformation:ap-southeast-2:279182895054:stack/amplify-poc-staging-20190910120010/b847fe60-d36e-11e9-ac11-06b4de3fdf3e"
-		},
-		"categories": {
-			"auth": {
-				"amplifypoc3ef392fb": {}
-			}
-		}
-	},
-	"prod": {
-		"awscloudformation": {
-			"AuthRoleName": "amplify-poc-prod-20190910121921-authRole",
-			"UnauthRoleArn": "arn:aws:iam::279182895054:role/amplify-poc-prod-20190910121921-unauthRole",
-			"AuthRoleArn": "arn:aws:iam::279182895054:role/amplify-poc-prod-20190910121921-authRole",
-			"Region": "ap-southeast-2",
-			"DeploymentBucketName": "amplify-poc-prod-20190910121921-deployment",
-			"UnauthRoleName": "amplify-poc-prod-20190910121921-unauthRole",
-			"StackName": "amplify-poc-prod-20190910121921",
-			"StackId": "arn:aws:cloudformation:ap-southeast-2:279182895054:stack/amplify-poc-prod-20190910121921/668ecab0-d371-11e9-84ff-0accf194060a"
-		},
-		"categories": {
-			"auth": {
-				"amplifypoc3ef392fb": {}
-			}
-		}
-	},
-	"some-new-branch": {
-		"error": "No environment found with name: 'some-new-branch'"
-	},
-	"branch": {
-		"awscloudformation": {
-			"AuthRoleName": "lighthousecircleciex-branch-20191003140749-authRole",
-			"UnauthRoleArn": "arn:aws:iam::279182895054:role/lighthousecircleciex-branch-20191003140749-unauthRole",
-			"AuthRoleArn": "arn:aws:iam::279182895054:role/lighthousecircleciex-branch-20191003140749-authRole",
-			"Region": "ap-southeast-2",
-			"DeploymentBucketName": "lighthousecircleciex-branch-20191003140749-deployment",
-			"UnauthRoleName": "lighthousecircleciex-branch-20191003140749-unauthRole",
-			"StackName": "lighthousecircleciex-branch-20191003140749",
-			"StackId": "arn:aws:cloudformation:ap-southeast-2:279182895054:stack/lighthousecircleciex-branch-20191003140749/5d5ab650-e593-11e9-86f5-0609d93c9d3c"
-		},
-		"categories": {
-			"auth": {
-				"amplifypoc3ef392fb": {}
-			}
-		}
-	}
+    "staging": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-poc-staging-20190910120010-authRole",
+            "UnauthRoleArn": "arn:aws:iam::279182895054:role/amplify-poc-staging-20190910120010-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::279182895054:role/amplify-poc-staging-20190910120010-authRole",
+            "Region": "ap-southeast-2",
+            "DeploymentBucketName": "amplify-poc-staging-20190910120010-deployment",
+            "UnauthRoleName": "amplify-poc-staging-20190910120010-unauthRole",
+            "StackName": "amplify-poc-staging-20190910120010",
+            "StackId": "arn:aws:cloudformation:ap-southeast-2:279182895054:stack/amplify-poc-staging-20190910120010/b847fe60-d36e-11e9-ac11-06b4de3fdf3e"
+        },
+        "categories": {
+            "auth": {
+                "amplifypoc3ef392fb": {}
+            }
+        }
+    },
+    "prod": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-poc-prod-20190910121921-authRole",
+            "UnauthRoleArn": "arn:aws:iam::279182895054:role/amplify-poc-prod-20190910121921-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::279182895054:role/amplify-poc-prod-20190910121921-authRole",
+            "Region": "ap-southeast-2",
+            "DeploymentBucketName": "amplify-poc-prod-20190910121921-deployment",
+            "UnauthRoleName": "amplify-poc-prod-20190910121921-unauthRole",
+            "StackName": "amplify-poc-prod-20190910121921",
+            "StackId": "arn:aws:cloudformation:ap-southeast-2:279182895054:stack/amplify-poc-prod-20190910121921/668ecab0-d371-11e9-84ff-0accf194060a"
+        },
+        "categories": {
+            "auth": {
+                "amplifypoc3ef392fb": {}
+            }
+        }
+    },
+    "some-new-branch": {
+        "error": "No environment found with name: 'some-new-branch'"
+    },
+    "branch": {
+        "awscloudformation": {
+            "AuthRoleName": "lighthousecircleciex-branch-20191003140749-authRole",
+            "UnauthRoleArn": "arn:aws:iam::279182895054:role/lighthousecircleciex-branch-20191003140749-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::279182895054:role/lighthousecircleciex-branch-20191003140749-authRole",
+            "Region": "ap-southeast-2",
+            "DeploymentBucketName": "lighthousecircleciex-branch-20191003140749-deployment",
+            "UnauthRoleName": "lighthousecircleciex-branch-20191003140749-unauthRole",
+            "StackName": "lighthousecircleciex-branch-20191003140749",
+            "StackId": "arn:aws:cloudformation:ap-southeast-2:279182895054:stack/lighthousecircleciex-branch-20191003140749/5d5ab650-e593-11e9-86f5-0609d93c9d3c"
+        },
+        "categories": {
+            "auth": {
+                "amplifypoc3ef392fb": {}
+            }
+        }
+    }
 }
