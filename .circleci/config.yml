@@ -10,9 +10,9 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - v4-dependencies-{{ checksum "yarn.lock" }}
+            - v5-dependencies-{{ checksum "yarn.lock" }}
             # fallback to using the latest cache if no exact match is found
-            - v4-dependencies-
+            - v5-dependencies-
       - run: yarn config set cache-folder ~/.cache/yarn
       - run: yarn cache dir
       - run:
@@ -24,11 +24,11 @@ jobs:
       - save_cache:
           paths:
             - node_modules
-          key: v4-dependencies-{{ checksum "yarn.lock" }}
+          key: v5-dependencies-{{ checksum "yarn.lock" }}
       - persist_to_workspace:
           root: ~/
           paths:
-            - .cache/yarn
+            - ~/.cache/yarn
   release:
     <<: *defaults
     steps:
