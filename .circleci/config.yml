@@ -10,11 +10,11 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - v10-dependencies-{{ checksum "yarn.lock" }}
+            - v11-dependencies-{{ checksum "yarn.lock" }}
             # fallback to using the latest cache if no exact match is found
-            - v10-dependencies-
-      - run: "if [ -e $HOME/.yarn/bin/amplify ]; then echo 'amplify already installed globally, skipping'; else yarn global add @aws-amplify/cli@^3.0.0 --prefix ~/.yarn; fi"
-      - run: ls ~/.amplify/
+            - v11-dependencies-
+      - run: ./scripts/amplify-install.sh
+      - run: ls
       - run:
           name: Install
           command: |
@@ -24,7 +24,8 @@ jobs:
             - node_modules
             - ~/.yarn
             - ~/.config/yarn
-          key: v10-dependencies-{{ checksum "yarn.lock" }}
+            - ~/.amplify
+          key: v11-dependencies-{{ checksum "yarn.lock" }}
   release:
     <<: *defaults
     steps:
@@ -35,7 +36,6 @@ jobs:
           keys:
             - v10-dependencies-{{ checksum "yarn.lock" }}
       - run: ./scripts/write-aws-creds-file.sh
-      - run: amplify env checkout staging
       - run: ./scripts/amplify-init.sh -e staging -i
       - run: amplify publish -y --invalidateCloudFront
 
