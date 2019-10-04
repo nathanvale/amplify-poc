@@ -31,12 +31,11 @@ jobs:
     <<: *defaults
     steps:
       - checkout
-      - run: echo 'export PATH=$(yarn global bin):$PATH' >> $BASH_ENV
       - restore_cache:
           keys:
             - v{{ .Environment.CACHE_ID }}-dependencies-{{ checksum "yarn.lock" }}
       - run: ./scripts/amplify-init.sh -e staging -i
-      - run: amplify publish -y --invalidateCloudFront
+      - run: ~/.yarn/bin amplify publish -y --invalidateCloudFront
 
 workflows:
   version: 2
