@@ -3,7 +3,6 @@
   "version": "0.1.8",
   "private": true,
   "dependencies": {
-    "@aws-amplify/cli": "^3.11.0",
     "aws-amplify": "^1.1.40",
     "aws-amplify-react": "^2.4.4",
     "axios": "^0.19.0",
