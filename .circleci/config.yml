@@ -33,10 +33,10 @@ jobs:
       - restore_cache:
           keys:
             - v9-dependencies-{{ checksum "yarn.lock" }}
-      - run: ./scripts/write_aws_creds_file.sh
-      - run: amplify env checkout staging
-      - run: ./scripts/amplify_push.sh -e staging -i
-      - run: ~/.yarn/bin/amplify publish -y --invalidateCloudFront
+      - run: ./scripts/write-aws-creds-file.sh
+      - run: amplify status
+      - run: ./scripts/amplify-init.sh -e staging -i
+      - run: amplify publish -y --invalidateCloudFront
 
 workflows:
   version: 2
