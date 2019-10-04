@@ -15,14 +15,12 @@ jobs:
             - v8-dependencies-{{ checksum "yarn.lock" }}
             # fallback to using the latest cache if no exact match is found
             - v8-dependencies-
-      - run: "if [ -e $HOME/.yarn/bin/amplify ]; then echo 'amplify already installed globally, skipping'; else yarn global add @aws-amplify/cli@3.0.0 --prefix ~/.yarn; fi"
+      - run: "if [ -e $HOME/.yarn/bin/amplify ]; then echo 'amplify already installed globally, skipping'; else yarn global add @aws-amplify/cli@^3.0.0 --prefix ~/.yarn; fi"
       - run:
           name: Install
           command: |
             yarn install --frozen-lockfile
       - run: ls ~/.cache/yarn
-      - run: yarn global add @aws-amplify/cli@3.0.0
-      - run: yarn global list @aws-amplify/cli
       - run: amplify
       - run: which amplify
       - save_cache:
@@ -38,6 +36,7 @@ jobs:
       - restore_cache:
           keys:
             - v8-dependencies-{{ checksum "yarn.lock" }}
+      - run: amplify
       - run:
           name: Build
           command: |
