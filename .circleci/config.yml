@@ -10,9 +10,9 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - v11-dependencies-{{ checksum "yarn.lock" }}
+            - v12-dependencies-{{ checksum "yarn.lock" }}
             # fallback to using the latest cache if no exact match is found
-            - v11-dependencies-
+            - v12-dependencies-
       - run: ./scripts/amplify-install.sh
       - run:
           name: Install
@@ -24,7 +24,7 @@ jobs:
             - ~/.yarn
             - ~/.config/yarn
             - ~/.amplify
-          key: v11-dependencies-{{ checksum "yarn.lock" }}
+          key: v12-dependencies-{{ checksum "yarn.lock" }}
   release:
     <<: *defaults
     steps:
@@ -33,7 +33,7 @@ jobs:
       - run: echo $BASH_ENV
       - restore_cache:
           keys:
-            - v11-dependencies-{{ checksum "yarn.lock" }}
+            - v12-dependencies-{{ checksum "yarn.lock" }}
       - run: ./scripts/write-aws-creds-file.sh
       - run: ./scripts/amplify-init.sh -e staging -i
       - run: amplify publish -y --invalidateCloudFront
