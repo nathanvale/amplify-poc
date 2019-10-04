@@ -27,7 +27,7 @@ jobs:
             - ~/.amplify
             - ~/.aws
           key: v{{ .Environment.CACHE_ID }}-dependencies-{{ checksum "yarn.lock" }}
-  release:
+  deploy-to-staging:
     <<: *defaults
     steps:
       - checkout
@@ -36,15 +36,29 @@ jobs:
             - v{{ .Environment.CACHE_ID }}-dependencies-{{ checksum "yarn.lock" }}
       - run: ./scripts/amplify-init.sh -e staging -i
       - run: ~/.yarn/bin/amplify publish -y --invalidateCloudFront
+  lighthouse:
+    <<: *defaults
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v{{ .Environment.CACHE_ID }}-dependencies-{{ checksum "yarn.lock" }}
+      - run: LIGHTHOUSE_URL=https://staging.nathanvale.dev jest --config ./lighthouse/jest.config.js --verbose --runInBand
 
 workflows:
   version: 2
-  prepare_and_release:
+  workflow-name:
     jobs:
       - prepare
-      - release:
+      - deploy-to-staging:
           requires:
             - prepare
           filters:
             branches:
-              only: master
+              ignore: master
+      - lighthouse:
+          requires:
+            - deploy-to-staging
+          filters:
+            branches:
+              ignore: master
