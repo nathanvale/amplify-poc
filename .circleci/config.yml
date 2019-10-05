@@ -15,6 +15,7 @@ jobs:
             - v{{ .Environment.CACHE_ID }}-dependencies-
       - run: ./scripts/amplify-install.sh
       - run: ./scripts/write-aws-creds-file.sh
+      - run: node --version
       - run:
           name: Install
           command: |
