@@ -2,7 +2,7 @@ version: 2
 defaults: &defaults
   working_directory: ~/repo
   docker:
-    - image: circleci/node:latest-browsers
+    - image: circleci/node:10.15.0
 jobs:
   prepare:
     <<: *defaults
@@ -20,7 +20,6 @@ jobs:
           name: Install
           command: |
             yarn install --frozen-lockfile
-      - run: LIGHTHOUSE_URL=https://staging.nathanvale.dev npx jest --config ./lighthouse/jest.config.js --verbose --runInBand
       - save_cache:
           paths:
             - node_modules
@@ -59,6 +58,7 @@ workflows:
             branches:
               ignore: master
       - lighthouse:
+      - en
           requires:
             - deploy-to-staging
           filters:
