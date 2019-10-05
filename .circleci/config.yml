@@ -58,7 +58,6 @@ workflows:
             branches:
               ignore: master
       - lighthouse:
-      - en
           requires:
             - deploy-to-staging
           filters:
