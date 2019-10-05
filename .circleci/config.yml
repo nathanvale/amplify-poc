@@ -19,6 +19,7 @@ jobs:
           name: Install
           command: |
             yarn install --frozen-lockfile
+      - run: LIGHTHOUSE_URL=https://staging.nathanvale.dev npx jest --config ./lighthouse/jest.config.js --verbose --runInBand      
       - save_cache:
           paths:
             - node_modules
