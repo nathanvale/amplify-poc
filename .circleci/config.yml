@@ -39,6 +39,8 @@ jobs:
       - run: ~/.yarn/bin/amplify publish -y --invalidateCloudFront
   lighthouse:
     <<: *defaults
+   docker:
+    - image: circleci/node:10.15.0   
     steps:
       - checkout
       - restore_cache:
