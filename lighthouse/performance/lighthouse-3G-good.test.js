@@ -89,7 +89,7 @@ describe('3G Good performance audit via Lighthouse', () => {
   test('max-potential-fid score must be acceptable', () => {
     console.log(`audits['max-potential-fid'].score`, audits['max-potential-fid'].score)
     expect(audits['max-potential-fid'].score)
-      .toEqual(1);
+      .toBeGreaterThanOrEqual(0.7);
   });
 
   test('offscreen-images score must be acceptable', () => {
