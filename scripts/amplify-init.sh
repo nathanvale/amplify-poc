@@ -115,5 +115,5 @@ FRONTEND="{\
 }"
 
 
-
+$HOME/.yarn/bin/amplify version
 init_env ${ENV} ${AMPLIFY} ${PROVIDERS} ${CODEGEN} ${AWSCONFIG} ${FRONTEND}
