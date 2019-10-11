@@ -1,6 +1,7 @@
 
 
 module.exports = {
+  setupFilesAfterEnv: ["jest-expect-message"],
   setupFiles: [
     'react-app-polyfill/jsdom'
   ],
