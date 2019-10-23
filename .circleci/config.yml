@@ -4,6 +4,16 @@ defaults: &defaults
   docker:
     - image: circleci/node:10.15.0
 jobs:
+  ouch:
+    <<: *defaults
+    docker:
+    - image: circleci/node:latest-browsers
+    steps:
+    - checkout
+    - restore_cache:
+        keys:
+        - v{{ .Environment.CACHE_ID }}-dependencies-{{ checksum "yarn.lock" }}
+       run: LIGHTHOUSE_URL=https://staging.nathanvale.dev node scripts/lighthouse.js
   prepare:
     <<: *defaults
     steps:
@@ -52,6 +62,7 @@ workflows:
   version: 2
   workflow-name:
     jobs:
+      - ouch
       - prepare
       - deploy-to-staging:
           requires:
