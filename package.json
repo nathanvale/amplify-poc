@@ -43,6 +43,7 @@
     "jsBundleRegex": "/static/js/[^(main)].*chunk\\.js"
   },
   "devDependencies": {
+    "cross-spawn": "^7.0.1",
     "jest-expect-message": "^1.0.2",
     "md5": "^2.2.1"
   }
