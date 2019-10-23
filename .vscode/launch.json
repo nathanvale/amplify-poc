@@ -5,7 +5,7 @@
       "name": "Debug Jest Lighthouse Tests",
       "type": "node",
       "request": "launch",
-      "env":{"LIGHTHOUSE_URL":"https://staging.nathanvale.dev/"},
+      "env":{"LIGHTHOUSE_URL":"https://staging.nathanvale.dev/","CIRCLE_SHELL_ENV":"local"},
       "runtimeArgs": [
         "--inspect-brk",
         "${workspaceRoot}/node_modules/.bin/jest",

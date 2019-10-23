@@ -3,6 +3,7 @@
 const puppeteer = require('puppeteer');
 const lighthouse = require('lighthouse');
 const fs = require('fs');
+const md5 = require('md5');
 
 
 async function gatherPerformanceTimingMetric(page, metricName) {
@@ -33,15 +34,22 @@ async function processPerformanceTimingMetrics(metrics) {
 async function gatherLighthouseMetrics(page, config) {
   // Port is in formаt: ws://127.0.0.1:52046/devtools/browser/675a2fad-4ccf-412b-81bb-170fdb2cc39c
   const port = await page.browser().wsEndpoint().split(':')[2].split('/')[0];
-  const result = await lighthouse(page.url(), { port: port, output: 'html' }, config).then(results => {
+  const CIRCLE_SHELL_ENV = process.env.CIRCLE_SHELL_ENV
+  console.log('LIGHTHOUSE_URL', process.env.LIGHTHOUSE_URL)
+  console.log('CIRCLE_SHELL_ENV', CIRCLE_SHELL_ENV)
+  const filename = md5('message');
+  console.log('filename', filename)
+  const result = await lighthouse(page.url(), { port: port, output: ['html','json'] }, config).then(results => {
     delete results.artifacts;
     return results;
   });
-  fs.writeFileSync("reports/reports.html", result.report)
+  fs.writeFileSync(`reports/${filename}.html`, result.report[0])
+  fs.writeFileSync(`reports/${filename}.json`, result.report[1])
   return result
 }
 
 async function getMetrics(url,preset) {
+  console.log('url',url)
   const browser = await puppeteer.launch({
     headless: true,
         args: ['--disable-gpu'],
