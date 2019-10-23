@@ -13,7 +13,7 @@ jobs:
     - restore_cache:
         keys:
         - v{{ .Environment.CACHE_ID }}-dependencies-{{ checksum "yarn.lock" }}
-    - run: LIGHTHOUSE_URL=https://staging.nathanvale.dev node scripts/lighthouse.js
+    - run: LIGHTHOUSE_URL=https://staging.nathanvale.dev node ./scripts/lighthouse.js
   prepare:
     <<: *defaults
     steps:
