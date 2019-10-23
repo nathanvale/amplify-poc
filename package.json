@@ -7,17 +7,18 @@
     "aws-amplify-react": "^2.4.4",
     "axios": "^0.19.0",
     "circle-github-bot": "^2.0.0",
+    "lighthouse": "^5.5.0",
+    "puppeteer": "^1.20.0",
     "react": "^16.10.1",
     "react-dom": "^16.10.1",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "^3.2.0",
-    "lighthouse": "^5.5.0",
-    "puppeteer": "^1.20.0"
+    "react-scripts": "^3.2.0"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "test:script": "node scripts/lighthouse.js",
     "test:lighthouse": "LIGHTHOUSE_URL=https://staging.nathanvale.dev jest --config ./lighthouse/jest.config.js --verbose --runInBand",
     "eject": "react-scripts eject"
   },
@@ -40,5 +41,8 @@
     },
     "maxBundleSizeKb": 250,
     "jsBundleRegex": "/static/js/[^(main)].*chunk\\.js"
+  },
+  "devDependencies": {
+    "jest-expect-message": "^1.0.2"
   }
 }

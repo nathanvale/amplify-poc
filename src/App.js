@@ -5,9 +5,6 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Amplify from "aws-amplify";
 import aws_exports from "./aws-exports";
 import dog from "./dog.png";
-import dog2 from "./dog2.png";
-import dog3 from "./dog3.png";
-import dog4 from "./dog4.png";
 import "./App.css";
 
 Amplify.configure(aws_exports);
@@ -21,21 +18,6 @@ const Index = () => (
     <p>
       <img
         src={dog}
-        className="z-depth-2 responsive-img"
-        alt="Literal dog steering the metaphorical ship of container orchestration"
-      />
-      <img
-        src={dog2}
-        className="z-depth-2 responsive-img"
-        alt="Literal dog steering the metaphorical ship of container orchestration"
-      />
-      <img
-        src={dog3}
-        className="z-depth-2 responsive-img"
-        alt="Literal dog steering the metaphorical ship of container orchestration"
-      />
-      <img
-        src={dog4}
         className="z-depth-2 responsive-img"
         alt="Literal dog steering the metaphorical ship of container orchestration"
       />
