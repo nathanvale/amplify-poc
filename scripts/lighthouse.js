@@ -7,7 +7,7 @@ function lighthouse() {
     
     const fromRoot = (...p) => path.join(process.cwd(), ...p)
     console.log(fromRoot('./lighthouse/jest.config.js'))
-    const result = spawn.sync('jest', ['--config', fromRoot('./lighthouse/jest.config.js'), '--verbose', '--runInBand'], { stdio: 'inherit', shell: true, env: {...process.env, LIGHTHOUSE_URL: 'https://staging.nathanvale.dev'},})
+    const result = spawn.sync('npx', ['jest','--config', fromRoot('./lighthouse/jest.config.js'), '--verbose', '--runInBand'], { stdio: 'inherit', shell: true, env: {...process.env, LIGHTHOUSE_URL: 'https://staging.nathanvale.dev'},})
     console.log(result)
   } catch (error) {
     console.log(error)

@@ -37,7 +37,7 @@ jobs:
       - restore_cache:
           keys:
             - v{{ .Environment.CACHE_ID }}-dependencies-{{ checksum "yarn.lock" }}
-      - run: jest --version
+      - run: npx jest --version
       - run: LIGHTHOUSE_URL=https://staging.nathanvale.dev node ./scripts/lighthouse.js
   deploy-to-staging:
     <<: *defaults
