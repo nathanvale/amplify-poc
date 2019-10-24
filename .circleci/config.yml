@@ -7,13 +7,14 @@ jobs:
   ouch:
     <<: *defaults
     docker:
-    - image: circleci/node:latest-browsers
+      - image: circleci/node:latest-browsers
     steps:
-    - checkout
-    - restore_cache:
-        keys:
-        - v{{ .Environment.CACHE_ID }}-dependencies-{{ checksum "yarn.lock" }}
-    - run: LIGHTHOUSE_URL=https://staging.nathanvale.dev node ./scripts/lighthouse.js
+      - checkout
+      - restore_cache:
+          keys:
+            - v{{ .Environment.CACHE_ID }}-dependencies-{{ checksum "yarn.lock" }}
+      - run: jest --version
+      - run: LIGHTHOUSE_URL=https://staging.nathanvale.dev node ./scripts/lighthouse.js
   prepare:
     <<: *defaults
     steps:
