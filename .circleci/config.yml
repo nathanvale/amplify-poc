@@ -64,7 +64,7 @@ workflows:
   workflow-name:
     jobs:
       - prepare
-      - ouch
+      - ouch:
           requires:
             - prepare
       - deploy-to-staging:
