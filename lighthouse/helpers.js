@@ -43,8 +43,8 @@ async function gatherLighthouseMetrics(page, config) {
     delete results.artifacts;
     return results;
   });
-  fs.writeFileSync(`reports/${filename}.html`, result.report[0])
-  fs.writeFileSync(`reports/${filename}.json`, result.report[1])
+  fs.writeFileSync(`reports/anonymous-${filename}.html`, result.report[0])
+  fs.writeFileSync(`reports/anonymous-${filename}.json`, result.report[1])
   return result
 }
 
