@@ -4,17 +4,6 @@ defaults: &defaults
   docker:
     - image: circleci/node:10.15.0
 jobs:
-  ouch:
-    <<: *defaults
-    docker:
-      - image: circleci/node:latest-browsers
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - v{{ .Environment.CACHE_ID }}-dependencies-{{ checksum "yarn.lock" }}
-      - run: jest --version
-      - run: LIGHTHOUSE_URL=https://staging.nathanvale.dev node ./scripts/lighthouse.js
   prepare:
     <<: *defaults
     steps:
@@ -39,6 +28,17 @@ jobs:
             - ~/.amplify
             - ~/.aws
           key: v{{ .Environment.CACHE_ID }}-dependencies-{{ checksum "yarn.lock" }}
+  ouch:
+    <<: *defaults
+    docker:
+      - image: circleci/node:latest-browsers
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v{{ .Environment.CACHE_ID }}-dependencies-{{ checksum "yarn.lock" }}
+      - run: jest --version
+      - run: LIGHTHOUSE_URL=https://staging.nathanvale.dev node ./scripts/lighthouse.js
   deploy-to-staging:
     <<: *defaults
     steps:
