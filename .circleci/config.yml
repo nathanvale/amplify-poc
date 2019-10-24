@@ -65,6 +65,8 @@ workflows:
     jobs:
       - prepare
       - ouch
+          requires:
+            - prepare
       - deploy-to-staging:
           requires:
             - prepare
