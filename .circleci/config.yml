@@ -63,8 +63,8 @@ workflows:
   version: 2
   workflow-name:
     jobs:
-      - ouch
       - prepare
+      - ouch
       - deploy-to-staging:
           requires:
             - prepare
